@@ -1,0 +1,103 @@
+
+
+/* GENERAL */
+body, html { margin:0; padding:0; font-family:Arial,sans-serif; background:#f5f0e6; }
+
+/* LOADER */
+#loader { position:fixed; top:0; left:0; width:100%; height:100%; background:#e9ddcf; display:flex; justify-content:center; align-items:center; z-index:9999; }
+#loader img { width:100vw; height:100vh; object-fit:cover; }
+
+/* HEADER */
+header { display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem; background:#5c3d2e; position:fixed; top:0; width:100%; z-index:1001; box-shadow:0 2px 6px rgba(0,0,0,0.2); color:white; }
+/* Logo image styling */
+header .logo {
+  display: flex;
+  align-items: center;
+}
+
+header .logo-img {
+  height: 40px;   /* نفس ارتفاع النص تقريباً */
+  width: auto;    /* الحفاظ على تناسب الصورة */
+  object-fit: contain;
+}
+
+/* HAMBURGER MENU */
+#menuToggle { display:flex; flex-direction:column; justify-content:space-between; width:35px; height:28px; cursor:pointer; }
+#menuToggle span { display:block; height:4px; border-radius:2px; background:#f1c27d; }
+
+/* SIDEBAR */
+#sideMenu { position:fixed; top:0; left:-250px; width:250px; height:100%; background:#5c3d2e; z-index:999; display:flex; flex-direction:column; padding-top:80px; transition:0.3s ease; }
+#sideMenu a { color:white; text-decoration:none; padding:1.5rem; display:block; font-size:1.3rem; margin-bottom:10px; text-align:right; border-radius:0 5px 5px 0; }
+#sideMenu a:hover { background:#8b5e3c; }
+
+
+/* RECTANGLES */
+.rectangles { display:flex; justify-content:space-around; flex-wrap:wrap; gap:1rem; background:#f5f0e6; padding:1rem; }
+.rect { position:relative; display:block; width:32%; height:300px; border-radius:15px; overflow:hidden; cursor:pointer; border:3px solid #5c3d2e; transition:all 0.3s ease; }
+.rect img { width:100%; height:100%; object-fit:cover; border-radius:15px; }
+.rect-text { position:absolute; bottom:15px; right:15px; background:#5c3d2e; color:white; padding:0.4rem 1.2rem; border-radius:8px; font-size:1.3rem; font-weight:bold; }
+
+/* ABOUT IMAGE */
+.about-main-img img { width:100%; height:auto; object-fit:cover; border-radius:15px; border:3px solid #5c3d2e; margin-top:80px; }
+
+/* ABOUT SECTIONS */
+.about-sections { display:flex; flex-direction:column; gap:1.5rem; margin:2rem; }
+.info-box { background:#f5f0e6; border:2px solid #5c3d2e; border-radius:15px; padding:1.5rem; transition:transform 0.3s ease, box-shadow 0.3s ease; }
+.info-box h3 { color:#5c3d2e; margin-bottom:0.5rem; }
+.info-box p, .info-box ul { color:#3a2e27; line-height:1.6; }
+.info-box ul li { margin-bottom:0.5rem; }
+
+/* CONTACT BOX */
+.contact-box { max-width:700px; margin:120px auto 2rem auto; padding:2rem; background:#fdf8f0; border:3px solid #5c3d2e; border-radius:15px; text-align:center; }
+.contact-box h2 { color:#5c3d2e; margin-bottom:1.5rem; font-size:1.4rem; }
+.contact-box input, .contact-box textarea { width:100%; padding:0.8rem 1rem; margin-bottom:1rem; border:2px solid #5c3d2e; border-radius:10px; font-size:1rem; box-sizing:border-box; font-family:Arial,sans-serif; }
+.contact-box button { display:block; margin:1rem auto 0 auto; padding:0.8rem 2rem; background:#5c3d2e; color:#fdf8f0; border:none; border-radius:10px; font-size:1rem; cursor:pointer; transition:0.3s; }
+.contact-box button:hover { background:#8b5e3c; }
+
+/* FOOTER */
+footer { background:#5c3d2e; color:white; text-align:center; padding:1rem; margin-top:2rem; }
+footer a { color:white; text-decoration:none; margin:0 0.5rem; }
+footer a:hover { color:#d9b08c; }
+footer .footer-line { margin:0.5rem 0; }
+
+
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 500px; /* أو أي ارتفاع مناسب */
+  overflow: hidden;
+}
+
+.main-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0; /* تحت overlay */
+}
+
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* فوق الفيديو */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 2rem;
+}
+
+
+.slider-text {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: rgba(92,61,46,0.6);
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  text-align: right;
+}

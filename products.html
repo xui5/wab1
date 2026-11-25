@@ -1,0 +1,447 @@
+
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منتجات WAB Café</title>
+<style>
+  body, html { margin:0; padding:0; font-family:Arial,sans-serif; background:#f5f0e6; }
+
+  /* HEADER */
+  header {
+    display:flex; justify-content:space-between; align-items:center;
+    padding:1rem 2rem; background:#5c3d2e; position:fixed; top:0; width:100%; z-index:1001;
+    box-shadow:0 2px 6px rgba(0,0,0,0.2); color:white;
+  }
+/* Logo image styling */
+header .logo {
+  display: flex;
+  align-items: center;
+}
+
+header .logo-img {
+  height: 40px;   /* نفس ارتفاع النص تقريباً */
+  width: auto;    /* الحفاظ على تناسب الصورة */
+  object-fit: contain;
+}
+  /* HAMBURGER MENU */
+  #menuToggle {
+    display:flex; flex-direction:column; justify-content:space-between; width:35px; height:28px; cursor:pointer;
+  }
+  #menuToggle span { display:block; height:4px; border-radius:2px; background:#f1c27d; }
+
+  /* SIDEBAR */
+  #sideMenu {
+    position:fixed; top:0; left:-250px; width:250px; height:100%; background:#5c3d2e; z-index:999;
+    display:flex; flex-direction:column; padding-top:80px; transition:0.3s ease;
+  }
+  #sideMenu a {
+    color:white; text-decoration:none; padding:1.5rem; display:block; font-size:1.3rem; margin-bottom:10px; text-align:right;
+    border-radius:0 5px 5px 0; transition:0.3s;
+  }
+  #sideMenu a:hover, #sideMenu a.active { background:#8b5e3c; }
+
+  /* TOP BANNER */
+  .top-banner img { width:100%; max-height:250px; object-fit:cover; margin-top:60px; }
+
+  /* SEARCH */
+  .search-container { display:flex; justify-content:center; margin:20px 0; }
+  .search-container input {
+  width:80%; 
+  padding:10px; 
+  font-size:16px; 
+  border-radius:5px; 
+  border:2px solid #5c3d2e; /* بني غامق نفس لون الهيدر */
+  outline:none;
+}
+  /* CATEGORIES */
+  .categories { display:flex; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:20px; }
+  .categories button {
+    padding:8px 15px; border:none; border-radius:5px; background:#5c3d2e; color:#fff; transition:0.3s;
+    cursor:pointer;
+  }
+  .categories button.active { background:#8b5e3c; }
+
+  /* PRODUCTS GRID */
+  .products-list {
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+    gap:20px; padding:0 20px 40px 20px;
+  }
+  .product-card {
+    background:#fff; border-radius:10px; overflow:hidden;
+    cursor:pointer; transition:0.3s; box-shadow:0 2px 5px rgba(0,0,0,0.1);
+    display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .product-card:hover { transform:translateY(-5px); box-shadow:0 8px 15px rgba(0,0,0,0.2); }
+  .product-card img { width:100%; height:250px; object-fit:cover; }
+  .product-info { padding:10px; flex:1; }
+  .product-info h3 { margin:5px 0; font-size:18px; }
+  .product-info p { font-size:14px; color:#555; }
+  .cal-box { display:inline-block; margin-top:5px; font-size:12px; background:#d2691e; padding:2px 6px; border-radius:5px; color:#fff; }
+  .price { font-weight:bold; padding:10px; color:#d2691e; font-size:16px; text-align:right; }
+
+  /* MODAL */
+  .modal {
+    display:none; position:fixed; top:0; left:0; width:100%; height:100%;
+    background:rgba(0,0,0,0.5); justify-content:center; align-items:center; z-index:1000;
+  }
+  .modal-content {
+    background:#fff; border-radius:10px; width:90%; max-width:500px; padding:20px; position:relative;
+  }
+  .modal-content img { width:100%; border-radius:10px; margin-bottom:10px; }
+  .close-modal { position:absolute; top:10px; right:15px; font-size:20px; cursor:pointer; }
+
+  /* FOOTER */
+  footer {
+    text-align:center; padding:15px; background:#fff; box-shadow:0 -2px 5px rgba(0,0,0,0.1);
+    color:#555; font-size:14px; margin-top:20px;
+  }
+  footer a { color:#5c3d2e; text-decoration:none; margin:0 5px; }
+</style>
+</head>
+<body>
+  <div class="top-banner"></div>
+</div>
+</div>
+<!-- HEADER -->
+<header>
+ <div class="logo">
+  <img src="images/log.PNG" alt="Logo" class="logo-img">
+</div>
+  <div
+id="menuToggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</header>
+<!-- SIDEBAR -->
+<div id="sideMenu">
+  <a href="index.html">الرئيسية</a>
+  <a href="about.html">عنا</a>
+  <a href="products.html" class="active">المنتجات</a>
+  <a href="contact.html">تواصل</a>
+</div>
+<!-- TOP BANNER -->
+<div class="top-banner">
+  <img src="images/33منتج.jpg" alt="وصف" class="image-style">
+</div>
+<!-- SEARCH -->
+<div class="search-container">
+  <input type="text" id="searchInput" placeholder="ابحث عن منتج..." oninput="filterProducts()">
+</div>
+<!-- CATEGORIES -->
+<div class="categories">
+  <button class="cat active" onclick="filterByCategory('all')">الكل</button>
+  <button class="cat" onclick="filterByCategory('القهوة المقطرة')">القهوة المقطرة</button>
+  <button class="cat" onclick="filterByCategory('القهوة الساخنة')">القهوة الساخنة</button>
+  <button class="cat" onclick="filterByCategory('المشروبات الباردة')">المشروبات الباردة</button>
+  <button class="cat" onclick="filterByCategory('الحلويات')">الحلويات</button>
+  <button class="cat" onclick="filterByCategory('بوكسات الجمعات')">بوكسات الجمعات</button>
+</div>
+<!-- PRODUCTS LIST -->
+<div class="products-list">
+<!-- === القهوة المقطرة === -->
+<div class="product-card" data-category="القهوة المقطرة">
+ <img src="images/قهوة اليوم حار.jpg" alt="وصف" class="image-style">
+  <div class="product-info">
+    <h3>V60 إثيوبي حار</h3>
+    <p>قهوة إثيوبية مختارة بعناية، معدة بطريقة V60، بنكهات فواكهية وزهرية.</p>
+    <span class="cal-box">~5-10 سعرة</span>
+  </div>
+  <div class="price">15 ريال</div>
+</div>
+<div class="product-card" data-category="القهوة المقطرة">
+ <img src="images/قهوة اليوم حار.jpg" alt="وصف" class="image-style">
+  <div class="product-info">
+    <h3>V60 كوستاريكا حار</h3>
+    <p>قهوة كوستاريكية بنكهة غنية ومتوازنة، معدة بطريقة V60 الساخنة.</p>
+    <span class="cal-box">~5-10 سعرة</span>
+  </div>
+  <div class="price">16 ريال</div>
+</div>
+<div class="product-card" data-category="القهوة المقطرة">
+  <img src="images/قهوة اليوم بارد.jpg" alt="وصف" class="image-style">
+  <div class="product-info">
+    <h3>V60 إثيوبي بارد</h3>
+    <p>قهوة إثيوبية مثلجة بطريقة V60، منعشة وفواكهية.</p>
+    <span class="cal-box">~5-10 سعرة</span>
+  </div>
+  <div class="price">16 ريال</div>
+</div>
+<div class="product-card" data-category="القهوة المقطرة">
+  <img src="images/قهوة اليوم بارد.jpg" alt="وصف" class="image-style">
+  <div class="product-info">
+    <h3>V60 كوستاريكا بارد</h3>
+    <p>قهوة كوستاريكية مثلجة بطريقة V60، طعمها غني ومميز.</p>
+    <span class="cal-box">~5-10 سعرة</span>
+  </div>
+  <div class="price">17 ريال</div>
+</div>
+<!-- === القهوة الساخنة === -->
+<div class="product-card" data-category="القهوة الساخنة">
+  <img src="images/امريكانو.jpg" alt="وصف" class="image-style">
+
+  <div class="product-info">
+    <h3>امريكانو</h3>
+    <p>قهوة إسبرسو مخففة بالماء الساخن، خفيفة ومنعشة.</p>
+    <span class="cal-box">~10 سعرة</span>
+  </div>
+  <div class="price">12 ريال</div>
+</div>
+
+<div class="product-card" data-category="القهوة الساخنة">
+<img src="images/كابتشينو.jpg" alt="وصف" class="image-style">
+  <div class="product-info">
+    <h3>كورتادو</h3>
+    <p>إسبرسو مع كمية قليلة من الحليب المبخر لتخفيف الحموضة.</p>
+    <span class="cal-box">30-40 سعرة</span>
+  </div>
+  <div class="price">13 ريال</div>
+</div>
+
+<div class="product-card" data-category="القهوة الساخنة">
+  <img src="images/فلات وايت.jpg" alt="وصف" class="image-style">
+  <div class="product-info">
+    <h3>فلات وايت</h3>
+    <p>إسبرسو مع حليب مبخر، كريمي ومتوازن.</p>
+    <span class="cal-box">60-80 سعرة</span>
+  </div>
+  <div class="price">14 ريال</div>
+</div>
+
+<div class="product-card" data-category="القهوة الساخنة">
+<img src="images/كابتشينو.jpg" alt="وصف" class="image-style">
+  <div class="product-info">
+    <h3>لاتيه</h3>
+    <p>إسبرسو مع حليب ساخن وكريما خفيفة، مشروب يوميلذيذ.</p>
+    <span class="cal-box">120-150 سعرة</span>
+  </div>
+  <div class="price">16 ريال</div>
+</div>
+
+<div class="product-card" data-category="القهوة الساخنة">
+  <img src="images/كابتشينو.jpg" alt="وصف" class="image-style">
+  <div class="product-info">
+    <h3>كابتشينو</h3>
+    <p>إسبرسو مع الحليب المبخر ورغوة كثيفة، مثالي لعشاق القهوة الكريمية.</p>
+    <span class="cal-box">100-130 سعرة</span>
+  </div>
+  <div class="price">16 ريال</div>
+</div>
+
+<div class="product-card" data-category="القهوة الساخنة">
+<img src="images/كابتشينو.jpg" alt="وصف" class="image-style">
+  <div class="product-info">
+    <h3>سبانيش لاتيه</h3>
+    <p>لاتيه إسباني مع سكر مكثف وحليب كامل الدسم، غني وحلو.</p>
+    <span class="cal-box">200-220 سعرة</span>
+  </div>
+  <div class="price">17 ريال</div>
+</div>
+
+<!-- === المشروبات الباردة === -->
+<div class="product-card" data-category="المشروبات الباردة">
+<img src="images/اسبريسو الفريدو .jpg" alt="وصف" class="image-style">
+  <div class="product-info">
+    <h3>فريدو</h3>
+    <p>قهوة مثلجة مخفوقة، ناعمة وكريمية.</p>
+    <span class="cal-box">40-50 سعرة</span>
+  </div>
+  <div class="price">11 ريال</div>
+</div>
+
+<div class="product-card" data-category="المشروبات الباردة">
+  <img src="images/كركدية.jpg" alt="آيس كركديه مثلج" class="image-style">
+  <div class="product-info">
+    <h3>آيس كركديه</h3>
+    <p>مشروب كركديه مثلّج منعش ذو لون أحمر طبيعي، يقدم بطعم متوازن بين الحموضة والحلاوة. مثالي للأجواء الحارة ويمنح إحساس فوري بالانتعاش.</p>
+    <span class="cal-box">90-110 سعرة للكوب</span>
+  </div>
+  <div class="price">17 ريال</div>
+</div>
+<div class="product-card" data-category="المشروبات الباردة">
+ <img src="images/ايس لاتيه.jpg" alt="وصف" class="image-style">
+  <div class="product-info">
+    <h3>آيس سبانيش لاتيه</h3>
+    <p>لاتيه إسباني مثلج، غني بالحليب والسكر المكثف.</p>
+    <span class="cal-box">220-250 سعرة</span>
+  </div>
+  <div class="price">18 ريال</div>
+</div>
+
+<div class="product-card" data-category="المشروبات الباردة">
+<img src="images/ايس لاتيه.jpg" alt="وصف" class="image-style">
+  <div class="product-info">
+    <h3>آيس لاتيه</h3>
+    <p>لاتيه مثلج مع الحليب والثلج، مشروب صيفي منعش.</p>
+    <span class="cal-box">120-150 سعرة</span>
+  </div>
+  <div class="price">16 ريال</div>
+</div>
+
+<div class="product-card" data-category="المشروبات الباردة">
+  <img src="images/كلاسيك ماتشا.jpg" alt="وصف" class="image-style">
+  <div class="product-info">
+    <h3>ماتشا</h3>
+    <p>شاي الماتشا الأخضر مع الحليب، منعش ومليء بمضادات الأكسدة.</p>
+    <span class="cal-box">80-100 سعرة</span>
+  </div>
+  <div class="price">19 ريال</div>
+</div>
+
+
+<!-- === الحلويات === -->
+  <div class="product-card" data-category="الحلويات">
+   <img src="images/لوح شوكولاته كراميل.jpg" alt="وصف" class="image-style">
+    <div class="product-info">
+      <h3>لوح شوكولاته كراميل</h3>
+      <p>بار شوكولاتة محشو بكراميل سائل غني، غلاف شوكولاتي ناعم يلتف حول قلب لزج وحلو — مثالي لعشاق الكراميل.</p>
+      <span class="cal-box">300-380 سعرة</span>
+    </div>
+    <div class="price">12 ريال</div>
+  </div>
+
+  <div class="product-card" data-category="الحلويات">
+ <img src="images/بيكان كيك.jpg" alt="وصف" class="image-style">
+    <div class="product-info">
+      <h3>كيك البيكان</h3>
+      <p>كيك غني بالمكسرات (بيكان) والكراميل، حلوي دسمة ولذيذة.</p>
+      <span class="cal-box">~400 سعرة</span>
+    </div>
+    <div class="price">24 ريال</div>
+  </div>
+
+  <div class="product-card" data-category="الحلويات">
+  <img src="images/وأب كيك.jpg" alt="وصف" class="image-style">
+    <div class="product-info">
+      <h3>وأب كيك</h3>
+      <p>كيك مقرمش مع طبقات من الكريمة أو الشوكولاتة، فاخر وحلو.</p>
+      <span class="cal-box">~450 سعرة</span>
+    </div>
+    <div class="price">26 ريال</div>
+  </div>
+
+  <div class="product-card" data-category="الحلويات">
+<img src="images/لوح شوكولاته مقرمش.jpg" alt="وصف" class="image-style">
+    <div class="product-info">
+      <h3>لوح شوكولاته مقرمش</h3>
+      <p>بار شوكولاتة مقرمش يحتوي على قطع بسكويت أو حبوب محمصة داخل الشوكولاتة، يعطي قرمشة ممتعة مع طعم شوكولاتي غني.</p>
+      <span class="cal-box">250-330 سعرة</span>
+    </div>
+    <div class="price">12 ريال</div>
+  </div>
+
+  
+  
+
+  <!-- === بوكسات الجمعات الباقية === -->
+  <div class="product-card" data-category="بوكسات الجمعات">
+   <img src="images/تشيز مدريد جمعات.jpg" alt="وصف" class="image-style">
+    <div class="product-info">
+      <h3>مدريد تشيز كيك – بوكس كامل</h3>
+      <p>تشيز كيك مدريد كامل على شكل قالب موضع في بوكس، كريمي وغني بطبقة البسكويت، مثالي للجلسات والمشاركة.</p>
+      <span class="cal-box">850-900 سعرة</span>
+    </div>
+    <div class="price">190 ريال</div>
+  </div>
+
+  <div class="product-card" data-category="بوكسات الجمعات">
+   <img src="images/بوكس .jpg" alt="وصف" class="image-style">
+    <div class="product-info">
+      <h3>بوكس قهوة اليوم حار 2 لتر</h3>
+      <p>قهوة مُفلترة ساخنة بكميات كبيرة للجمعات.</p>
+      <span class="cal-box">5-10 سعرة لكل كوب 250 مل</span>
+    </div>
+    <div class="price">58 ريال</div>
+  </div>
+
+  <div class="product-card" data-category="بوكسات الجمعات">
+ <img src="images/بوكس .jpg" alt="وصف" class="image-style">
+    <div class="product-info">
+      <h3>بوكس قهوة اليوم باردة 2 لتر</h3>
+      <p>قهوة مُفلترة باردة ومنعشة للجمعات الكبيرة.</p>
+      <span class="cal-box">5-10 سعرة لكل كوب 250 مل</span>
+    </div>
+    <div class="price">58 ريال</div>
+  </div>
+
+<div class="product-card" data-category="بوكسات الجمعات">
+  <img src="images/بوكس .jpg" alt="وصف" class="image-style">
+    <div class="product-info">
+      <h3>بوكس الكركديه 2 لتر</h3>
+      <p>مشروب كركديه بارد ومنعش مناسب للجلسات العائلية.</p>
+      <span class="cal-box">100-120 سعرة لكل 250 مل</span>
+    </div>
+    <div class="price">63 ريال</div>
+</div>
+
+<!-- modal -->
+<div id="productModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" onclick="closeModal()">&times;</span>
+    <img id="modalImg" src="" alt="Product">
+    <h3 id="modalTitle"></h3>
+    <p id="modalDesc"></p>
+    <div class="price" id="modalPrice"></div>
+  </div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer style="background:#5c3d2e; color:white;">
+  <div class="footer-line">© 2025 WAB Café</div>
+  <div class="footer-line">
+    <a href="https://www.instagram.com/wabcafe.sa?igsh=YnF4dzIxaGZjdjc2" target="_blank" style="color:white;">Instagram</a> |
+    <a href="https://www.tiktok.com/@wabcafe.sa?_r=1&_t=ZS-91fZBT1eIQH" target="_blank" style="color:white;">TikTok</a> |
+    <a href="mailto:tmheba4@gmail.com" style="color:white;">Email</a>
+  </div>
+</footer>
+<script>
+  // Loader fade
+  window.addEventListener('load',()=>{ document.getElementById('loader').classList.add('fade-out'); setTimeout(()=>{document.getElementById('loader').style.display='none';},1000); });
+
+  // Sidebar toggle
+  const menuToggle=document.getElementById('menuToggle');
+  const sideMenu=document.getElementById('sideMenu');
+  menuToggle.addEventListener('click',()=>{ sideMenu.style.left=sideMenu.style.left==='0px'?'-250px':'0px'; });
+
+  // FILTER BY CATEGORY
+  const categories=document.querySelectorAll('.categories button');
+  const products=document.querySelectorAll('.product-card');
+  function filterByCategory(cat){
+    categories.forEach(b=>b.classList.remove('active'));
+    event.target.classList.add('active');
+    products.forEach(p=>{p.style.display=(cat==='all'||p.dataset.category===cat)?'flex':'none';});
+  }
+
+  // SEARCH PRODUCTS
+  function filterProducts(){
+    const query=document.getElementById('searchInput').value.toLowerCase();
+    products.forEach(p=>{
+      const title=p.querySelector('h3').textContent.toLowerCase();
+      p.style.display=title.includes(query)?'flex':'none';
+    });
+  }
+
+  // MODAL
+  const modal=document.getElementById('productModal');
+  const modalImg=document.getElementById('modalImg');
+  const modalTitle=document.getElementById('modalTitle');
+  const modalDesc=document.getElementById('modalDesc');
+  const modalPrice=document.getElementById('modalPrice');
+  products.forEach(p=>{p.addEventListener('click',()=>{
+    modal.style.display='flex';
+    modalImg.src=p.querySelector('img').src;
+    modalTitle.textContent=p.querySelector('h3').textContent;
+    modalDesc.textContent=p.querySelector('p').textContent;
+    modalPrice.textContent=p.querySelector('.price').textContent;
+  })});
+  function closeModal(){modal.style.display='none';}
+  window.addEventListener('click',(e)=>{if(e.target===modal) modal.style.display='none';});
+</script>
+
+</body>
+</html>
